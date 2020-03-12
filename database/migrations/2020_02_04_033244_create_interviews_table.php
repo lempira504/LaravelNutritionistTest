@@ -17,7 +17,7 @@ class CreateInterviewsTable extends Migration
             $table->bigIncrements('id');
             $table->bigInteger('appointment_id')->unsigned();
             $table->bigInteger('user_id')->unsigned();
-            $table->integer('active')->nullable();
+            $table->integer('active')->nullable()->unsigned();
             $table->string('dob');
             $table->string('email');
             $table->integer('age'); 
@@ -34,10 +34,10 @@ class CreateInterviewsTable extends Migration
             $table->string('masa_muscular');
             $table->string('talla');
             $table->string('weigth');
-            $table->string('height');
+            $table->string('heigth');
             $table->string('image')->nullable();
-            $table->string('mimeType')->nullable();
-            $table->string('originalName')->nullable();
+            // $table->string('mimeType')->nullable();
+            // $table->string('originalName')->nullable();
             
             $table->timestamps();
 

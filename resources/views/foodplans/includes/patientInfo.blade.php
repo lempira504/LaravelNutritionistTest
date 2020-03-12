@@ -4,8 +4,8 @@
       <address>
             <strong> {{ $appointment->name }} </strong><br>
             Edad: 
-            @if($interview->age) 
-            {{ $interview->age }}
+            @if($appointment->interview->age) 
+            {{ $appointment->interview->age }}
             @else 
             <i class="fa fa-spinner fa-spin fa-xs"></i> 
             @endif 
@@ -21,6 +21,6 @@
             <i class="fa fa-spinner fa-spin fa-xs"></i> 
             @endif
             <br>
-            Email: {{ $interview->email }}
+            Email: {{ $appointment->interview->email }}
       </address>
 </div>

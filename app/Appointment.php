@@ -21,7 +21,7 @@ class Appointment extends Model
 
     public function interview()
     {
-        return $this->belongsTo(Interview::class);
+        return $this->hasOne(Interview::class);
     }
 
     public static function findDate($data)

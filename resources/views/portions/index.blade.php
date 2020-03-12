@@ -7,9 +7,9 @@
             <div class="card-header">
                 <h1 class="pl-4" style="color: rgb(25, 188, 157); font-weight: bold;">Patrón de Menú</h1>
             </div>
-
+            
             <div class="card-body">
-                @if ($portions != null)
+                @if ($portions->count() > 0)
                 <table class="table table-bordered table-hover">
                     <thead>
                         <tr class="text-center role">
@@ -45,9 +45,7 @@
                     </tbody>
                 </table>
                 @else
-                    <div class="col-md-7 offset-md-1 p-3 d-flex-column">
-                        <h1 class="pl-4" style="color:yellowgreen;">No Hay Porciones</h1>
-                    </div>
+                    <h3 class="display-4">No hay Porciones</h3>
                 @endif
             </div>
 

@@ -42,7 +42,7 @@
                                 
                             </div>
 
-                            <div class="col-3 p-2 m-1" style="border:1px dashed gainsboro;">
+                            <!-- <div class="col-3 p-2 m-1" style="border:1px dashed gainsboro;">
                                 
                                 <div class="pt-2 col-12">
                                     {{-- <img src="https://via.placeholder.com/150" alt="User profile picture" style="width: 100%;"> --}}
@@ -55,7 +55,7 @@
                                     class="my-input-bg @error('image') is-invalid @enderror" value="{{ old('image') }}">
                                 </div>
                                 
-                            </div>
+                            </div> -->
                             
                             <div class="col-5 m-1 p-3" style="border:1px dashed gainsboro;">
                        
@@ -89,10 +89,17 @@
                                     </div>
                                     <div class="col form-group">
                                         <label for="">Estatura <b class="text-danger">*</b></label>
-                                        <input class="form-control my-input-bg @error('height') is-invalid @enderror"
-                                        value="{{ old('height')}}" type="text" name="height" id="height" placeholder="Estatura">
+                                        <input class="form-control my-input-bg @error('heigth') is-invalid @enderror"
+                                        value="{{ old('heigth')}}" type="text" name="heigth" id="heigth" placeholder="Estatura">
 
                                     </div>
+                                </div>
+
+                                <div class="p-2 form-group">
+                                    <label for="">Imagen</label>
+                                    <br>
+                                    <input type="file" name="image" id="image" 
+                                    class="my-input-bg @error('image') is-invalid @enderror" value="{{ old('image') }}">
                                 </div>
                                 
 

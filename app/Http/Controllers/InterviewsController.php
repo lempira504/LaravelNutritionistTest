@@ -52,11 +52,10 @@ class InterviewsController extends Controller
      */
     public function store(Request $request)
     {
-        //
         
         $request['active'] = 1;
-        $data['mimeType'] = $request['mime'];
-        $data['originalName'] = $request['originalName'];
+        // $data['mimeType'] = $request['mime'];
+        // $data['originalName'] = $request['originalName'];
         
        
         $data = $this->validateMyFields();
@@ -107,6 +106,7 @@ class InterviewsController extends Controller
      */
     public function show($id)
     {
+        
         //Carbon::createFromFormat('Y-m-d','2019-08-03')->diffForHumans())
         // $codigoDelPaciente = Helper::makeCode();
         $appointment = Appointment::findOrFail($id);
@@ -152,18 +152,21 @@ class InterviewsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $data['active'] = 1;
-        $data['mimeType'] = $request['mime'];
-        $data['originalName'] = $request['originalName'];
-        
-        
-        $data = $this->validateMyFields();
-        
         $user = User::findOrFail(Auth::user()->id);
         
+        $request['active'] = 1;
+        
+        $data = $this->validateMyFields();
+
+        
+        
+        
+        #Deletes old image, before loading the new one
+        $this->deleteOldInterviewImageAfterUpdatingForNewOne($id);
 
         $user->interviews()->update($data);
         $this->storeImage($user, $request);
+        
 
         // dd($user);
 
@@ -204,17 +207,20 @@ class InterviewsController extends Controller
             'masa_muscular' => 'required|string',
             'talla' => 'required|string',
             'weigth' => 'required|string',
-            'height' => 'required|string',
-            'image' => 'nullable|file|image|mimes:jpeg,png,jpg,gif,svg|max:5000',
-            'mimeType' => 'nullable|string',
-            'originalName' => 'nullable|string',
+            'heigth' => 'required|string',
+            'image' => 'sometimes|file|image|mimes:jpeg,png,jpg,gif,svg|max:5000',
+            // 'mimeType' => 'nullable|string',
+            // 'originalName' => 'nullable|string',
             'active' => 'required|integer',
         ]);
     }
 
     private function storeImage($user, $request)
     {
+
         if (request()->has('image')) {
+
+            
 
             // $image = Image::make(request()->file('image'))->resize(200, 200, function ($c) {
             //     $c->aspectRatio();
@@ -227,7 +233,7 @@ class InterviewsController extends Controller
             // $user->interviews()->update([
             //     'image' => $image->basename,
             // ]);
-
+            
             ///--------------------------------new
             $user->interviews()->update([
                 'image' => request()->image->store('uploads', 'public'),
@@ -235,34 +241,20 @@ class InterviewsController extends Controller
 
             
         }
+        
+    }
 
+    
+    private function deleteOldInterviewImageAfterUpdatingForNewOne($id)
+    {
+        $oldImageName = Interview::findOrFail($id);
 
-
-        // if (request()->has('image')) 
-        // {
-        //     #one way to store
-        //     // $request->image->store('public');
+        if(request()->has('image') && $oldImageName->image)
+        {
             
-        //     #second way to store
-        //     // Storage::putFile('public', $request->file('image'));
-
-        //     #show files in folders
-        //     //Storage::files('public')
-
-        //     #make directory
-        //     //Storage::makeDirectory('public/test')
-        //     //Storage::makeDirectory('public/test')
-
-        //     #save a file with default name
-        //     //$request->image->storeAs('public/paciente', 'heber.'.$request->image->extension());
-
-        //     #show file from storage>public folder
-        //     //Storage::url('heber.png');
-        //     // $url = Storage::url('heber.png');
-            
-        //     // dd('<img src="'.$url.'">');
-        // }
-
+            Storage::delete('public/'.$oldImageName->image);
+        }
+        
     }
 
     

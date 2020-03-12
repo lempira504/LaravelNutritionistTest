@@ -8,7 +8,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    
+
     <!-- Tell the browser to be responsive to screen width -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Font Awesome -->
@@ -59,14 +59,16 @@
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-12">
-                            
+
                             <main class="py-4">
-                                <div class="col-12">
-                                    @include('flash-message')
+                                <div class="row justify-content-center">
+                                    <div class="col-8">
+                                        @include('flash-message')
+                                    </div>
                                 </div>
                                 @yield('content')
                             </main>
-                            
+
                         </div>
                     </div>
                 </div>
@@ -98,7 +100,7 @@
 
     @yield('script')
 
-    
+
 </body>
 
 </html>

@@ -15,8 +15,8 @@ class Interview extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function appointments()
+    public function appointment()
     {
-        $this->hasMany(Appointment::class);
+        return $this->belongsTo(Appointment::class);
     }
 }

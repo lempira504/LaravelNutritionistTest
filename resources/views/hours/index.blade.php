@@ -38,7 +38,7 @@
         </div>
         <div class="card-body">
             
-            @foreach ($hours as $hour)
+            @forelse ($hours as $hour)
             <div class="row py-1 justify-content-md-center">
                 <div class="col-4 d-flex">
                     <div class="pr-2">
@@ -73,7 +73,9 @@
                     </div>
                 </div>
             </div>
-            @endforeach
+            @empty
+            <h3 class="display-4">No hay Horarios</h3>
+            @endforelse
 
         </div>
 

@@ -88,7 +88,7 @@ class FoodPlansController extends Controller
         //retrieves all portions
         $portions = Portion::all();
 
-        return view('foodplans.show', compact('appointment', 'portions'));
+        return view('foodplans.show')->withAppointment($appointment)->withPortions($portions);
     }
 
     /**
