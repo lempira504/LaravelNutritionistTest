@@ -110,9 +110,9 @@ class InterviewsController extends Controller
         //Carbon::createFromFormat('Y-m-d','2019-08-03')->diffForHumans())
         // $codigoDelPaciente = Helper::makeCode();
         $appointment = Appointment::findOrFail($id);
-
-        $interview = Interview::findOrFail($id);
         
+        $interview = Interview::findOrFail($appointment->id);
+       
 
         // $date = Carbon::parse($appointment->date);
         // $month = $date->format('F');
@@ -126,10 +126,11 @@ class InterviewsController extends Controller
          * $date->isoFormat('LL') = 21 De Febrero De 2020
          * $date->monthName = Febrero
         */
-        $date = Helper::setsDateToSpanish($appointment->date);
+        $date = Helper::setsDateToSpanish($interview->appointment->date);
         
 
-        return view('interviews.show', compact('appointment', 'date', 'interview'));
+        // return view('interviews.show', compact('appointment', 'date', 'interview'));
+        return view('interviews.show', compact('date', 'interview'));
     }
 
     /**
@@ -152,9 +153,11 @@ class InterviewsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $user = User::findOrFail(Auth::user()->id);
-        
+        // $user = User::findOrFail(Auth::user()->id);
+        $interview = Interview::findOrFail($id);
+
         $request['active'] = 1;
+        $request['user_id'] = Auth::user()->id;
         
         $data = $this->validateMyFields();
 
@@ -164,8 +167,9 @@ class InterviewsController extends Controller
         #Deletes old image, before loading the new one
         $this->deleteOldInterviewImageAfterUpdatingForNewOne($id);
 
-        $user->interviews()->update($data);
-        $this->storeImage($user, $request);
+        // $user->interviews()->update($data);
+        $interview->update($data);
+        $this->updateImage($interview);
         
 
         // dd($user);
@@ -236,6 +240,20 @@ class InterviewsController extends Controller
             
             ///--------------------------------new
             $user->interviews()->update([
+                'image' => request()->image->store('uploads', 'public'),
+            ]);
+
+            
+        }
+        
+    }
+
+    private function updateImage($interview)
+    {
+
+        if (request()->has('image')) {
+            
+            $interview->update([
                 'image' => request()->image->store('uploads', 'public'),
             ]);
 

@@ -11,36 +11,35 @@
         <div class="col-12">
             {{-- {{ dd($id) }} --}}
             {{-- Beings the form for data ----------------------------------------------}}
-            <form action="{{ route('entrevistas.update', $appointment->id) }}" method="post" enctype="multipart/form-data">
-                <?php $date = Carbon\Carbon::parse($appointment->date); ?>
+            <form action="{{ route('entrevistas.update', $interview->appointment->id) }}" method="post" enctype="multipart/form-data">
+                
                 @csrf
                 @method('PATCH')
-
 
 
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header">
-                            <h3 class="h2 text-success">Datos Personales Aqui</h3>
+                            <h3 class="h2" style="color: rgb(25, 188, 157); font-weight: bold; font-size: 2.5em;">Datos Personales Aquí</h3>
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body">
                             <div class="row justify-content-center">
                                 <div class="col-3 m-1 p-3" style="border:1px dashed gainsboro;">
 
-                                    <strong><i class="fa fa-id-card mr-1" style="color:#758184;"> </i></strong> {{ $appointment->code }}
+                                    <strong><i class="fa fa-id-card mr-1" style="color:#758184;"> </i></strong> {{ $interview->appointment->code }}
                                     <hr>
 
-                                    <strong><i class="fa fa-user-alt mr-1" style="color:#758184;"></i> </strong> {{ $appointment->name }}
+                                    <strong><i class="fa fa-user-alt mr-1" style="color:#758184;"></i> </strong> {{ $interview->appointment->name }}
                                     <hr>
 
                                     <strong><i class="fa fa-calendar-alt mr-1" style="color:#758184;"></i></strong> {{ $date->isoFormat('L') }}
                                     <hr>
 
-                                    <strong><i class="fas fa-clock mr-1" style="color:#758184;"></i> </strong> {{ $appointment->hour->time }}
+                                    <strong><i class="fas fa-clock mr-1" style="color:#758184;"></i> </strong> {{ $interview->appointment->hour->time }}
                                     <hr>
 
-                                    <strong><i class="fas fa-phone-alt mr-1" style="color:#758184;"></i> </strong> {{ $appointment->phone }}
+                                    <strong><i class="fas fa-phone-alt mr-1" style="color:#758184;"></i> </strong> {{ $interview->appointment->phone }}
                                     <hr>
 
                                 </div>
@@ -49,7 +48,7 @@
 
                                     <div class="col-12">
                                         @if ($interview->image)
-
+                                            
                                         <img src=" {{ asset('storage/'.$interview->image)  }} " alt="User profile picture" class="img-thumbnail" width="100%">
 
                                         @else
@@ -58,8 +57,8 @@
                                     </div>
 
                                     <div class="p-2 form-group">
-                                        <label for="">Imagen</label>
-                                        <input type="file" name="image" id="image" class="my-input-bg @error('image') is-invalid @enderror" value="{{ old('image') }}">
+                                        <label class="rounded p-2 mt-2 text-gray-dark btn-block" for="image" style="background-color: #1eb2a6;"><i class="fas fa-cloud-upload-alt mr-2"></i>Cambiar Imagen</label>
+                                        <input type="file" name="image" id="image" style="display:none;" value="{{ old('image') }}">
                                     </div>
 
                                 </div>
@@ -70,7 +69,7 @@
                                         <label for="dob">Fecha de Nacimiento <b class="text-danger">*</b></label>
                                         <input name="dob" type="date" class="form-control my-input-bg @error('dob') is-invalid @enderror" placeholder="Fecha" value="{{ old('dob') ?? $interview->dob }}" autofocus>
 
-                                        <input name="appointment_id" type="hidden" class="form-control" value="{{ $appointment->id }}">
+                                        <input name="appointment_id" type="hidden" class="form-control" value="{{ $interview->appointment->id }}">
 
                                     </div>
                                     <div class="form-group">
