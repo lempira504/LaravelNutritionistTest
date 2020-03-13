@@ -86,9 +86,20 @@ class PortionsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
         //
+        $editPortion = Portion::findOrFail($request->id);
+
+        $data = $this->validateFields();
+
+        $editPortion->update($data);
+
+        Session::flash('success', 'Actualizado.');
+
+        $portions = Portion::paginate(6); 
+
+        return redirect()->back()->with('portions', $portions);
     }
 
     /**

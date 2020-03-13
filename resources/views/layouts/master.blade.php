@@ -61,12 +61,15 @@
                         <div class="col-12">
 
                             <main class="py-4">
-                                <div class="row justify-content-center">
-                                    <div class="col-8">
-                                        @include('flash-message')
-                                    </div>
+
+                            <div class="row justify-content-center">
+                                <div class="col-sm-11 col-md-11 col-lg-8">
+                                    @include('flash-message')
+
+                                    @yield('content')
                                 </div>
-                                @yield('content')
+                            </div>
+                               
                             </main>
 
                         </div>
