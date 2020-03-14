@@ -2,7 +2,6 @@
 
 @section('title', 'Lista de Citas')
 
-
 @section('content')
 <div class="container">
 
@@ -38,54 +37,64 @@
             
             @forelse ($appointments as $appointment)
 
-            <?php  $interview = App\Interview::where('appointment_id', $appointment->id)->value('active'); ?>
+                @php 
+                    $interview = App\Interview::where('appointment_id', $appointment->id)->value('active'); 
+                    $image = App\Interview::where('appointment_id', $appointment->id)->value('image'); 
+                @endphp
+            
+
 
             <div class="row pl-2 pr-2 py-1">
-                <div class="col-3">
+                <div class="col">
                     {{-- <a href=" {{ route('entrevistas.show', $appointment->id ) }} "
                         title="Crear Entrevista del Paciente Darle Click">{{ $appointment->code }}</a> --}}
                     
                     @if($interview)
-                    <a href=" {{ route('entrevistas.show', $appointment->id ) }} "
-                        title="Crear Entrevista del Paciente Darle Click">{{ $appointment->code }}</a>  
+                    <a class="align-middle" href=" {{ route('entrevistas.show', $appointment->id ) }} "
+                        title="Muestra Información de Última Entrevista del Paciente.">{{ $appointment->code }}</a>  
                     @else
-                    <a href=" {{ route('entrevistas.interview', $appointment->id ) }} "
-                        title="Crear Entrevista del Paciente Darle Click">{{ $appointment->code }}</a>  
+                    <a class="align-middle" href=" {{ route('entrevistas.interview', $appointment->id ) }} "
+                        title="Crear Entrevista del Paciente.">{{ $appointment->code }}</a>  
                     @endif
 
                 </div>
 
-                <div class="col-2">
+                <div class="col">
                     
-                    <a class="text-success font-weight-bolder" href=" {{ route('planes.show', $appointment->id) }} "
+                    <a class="text-success font-weight-bolder align-middle" href=" {{ route('planes.show', $appointment->id) }} "
                     title="Crear Plan del Paciente al Darle Click">{{ $appointment->name }}</a>
-                    
                     
                 </div>
                 
-                <div class="col-1 text-left text-muted">
+                <div class="col text-muted text-center">
                     
                     @if ($interview)
-                    <i class="fa fa-user-check text-success"></i>
-                    
+                        @if($image)
+                        <img class="align-middle img-circle elevation-2" alt="Avatar" style="width:40px;"  src="{{ asset('storage/'.$image) }}">
+                        {{-- <i class="fa fa-user-check text-success align-middle" title="Entrevista completada."></i> --}}
+                        @else
+                        <i class="fa fa-user-check text-success align-middle" title="Entrevista completada."></i>
+                        @endif
+                    @else
+                    <i class="fa fa-user-times text-danger align-middle" title="Entrevista no completada."></i>
                     @endif
                     
                 </div>
 
-                <div class="col text-capitalize"> {{ App\Helper::showDayMonthNameAndYearDate($appointment->date) }} - {{ $appointment->hour->time }} </div>
+                <div class="col-3 text-capitalize align-middle"> {{ App\Helper::showDayMonthNameAndYearDate($appointment->date) }} - {{ $appointment->hour->time }} </div>
                 
                 
                 {{-- <div class="col">{{ $appointment->created_at->diffForHumans() }}</div> --}}
 
-                <div class="col-2">{{ $appointment->phone }}</div>
+                <div class="col">{{ $appointment->phone }}</div>
 
-                <div class="col-1">
+                <div class="col">
                     <form action="{{ route('citas.destroy', $appointment->id) }}" method="post">
                         @csrf
                         @method('DELETE')
 
                         <button type="submit" class="btn btn-danger btn-xs"
-                            onclick="return confirm('¿Desea Eliminar Este Registro?')">Eliminar</button>
+                            onclick="return confirm('¿Desea Eliminar Este Registro?')"><i class="fas fa-trash mr-1"></i>Eliminar</button>
 
                     </form>
                 </div>
@@ -109,6 +118,8 @@
         </div>
 
     </div>
+
+   
 
 </div>
 @endsection

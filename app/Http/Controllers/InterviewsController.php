@@ -54,6 +54,8 @@ class InterviewsController extends Controller
     {
         
         $request['active'] = 1;
+        $request['user_id'] = Auth::user()->id;
+        
         // $data['mimeType'] = $request['mime'];
         // $data['originalName'] = $request['originalName'];
         
@@ -64,12 +66,13 @@ class InterviewsController extends Controller
         // $file = $request->file('image')->store('img');
         // dd($request->file('image'));
         
-        $user = User::findOrFail(Auth::user()->id);
+        // $user = User::findOrFail(Auth::user()->id);
         
         
 
-        $user->interviews()->create($data);
-        $this->storeImage($user, $request);
+        // $user->interviews()->create($data);
+        $interview = Interview::create($data);
+        $this->storeImage($interview);
         
 
 
@@ -106,14 +109,14 @@ class InterviewsController extends Controller
      */
     public function show($id)
     {
-        
+    //    dd($id);
         //Carbon::createFromFormat('Y-m-d','2019-08-03')->diffForHumans())
         // $codigoDelPaciente = Helper::makeCode();
-        $appointment = Appointment::findOrFail($id);
+        // $appointment = Appointment::findOrFail($id);
         
-        $interview = Interview::findOrFail($appointment->id);
+        $interview = Interview::where('appointment_id', $id)->first();
        
-
+       
         // $date = Carbon::parse($appointment->date);
         // $month = $date->format('F');
         // $day = $date->format('l');
@@ -153,23 +156,24 @@ class InterviewsController extends Controller
      */
     public function update(Request $request, $id)
     {
+        // dd($id);
         // $user = User::findOrFail(Auth::user()->id);
-        $interview = Interview::findOrFail($id);
+        $interview = Interview::where('appointment_id', $id)->first();
 
         $request['active'] = 1;
         $request['user_id'] = Auth::user()->id;
         
         $data = $this->validateMyFields();
 
-        
+       
         
         
         #Deletes old image, before loading the new one
-        $this->deleteOldInterviewImageAfterUpdatingForNewOne($id);
-
+        $this->deleteOldPatientImageAfterUpdatingForNewOne($id);
+        
         // $user->interviews()->update($data);
         $interview->update($data);
-        $this->updateImage($interview);
+        $this->storeImage($interview);
         
 
         // dd($user);
@@ -195,6 +199,7 @@ class InterviewsController extends Controller
     {
         return request()->validate([
             'dob' => 'required|string', 
+            'user_id' => 'required|integer', 
             'appointment_id' => 'required|integer', 
             'email' => 'required|email',
             'age' => 'required|integer', 
@@ -219,13 +224,11 @@ class InterviewsController extends Controller
         ]);
     }
 
-    private function storeImage($user, $request)
+    private function storeImage($interview)
     {
 
         if (request()->has('image')) {
-
             
-
             // $image = Image::make(request()->file('image'))->resize(200, 200, function ($c) {
             //     $c->aspectRatio();
             // });
@@ -239,20 +242,6 @@ class InterviewsController extends Controller
             // ]);
             
             ///--------------------------------new
-            $user->interviews()->update([
-                'image' => request()->image->store('uploads', 'public'),
-            ]);
-
-            
-        }
-        
-    }
-
-    private function updateImage($interview)
-    {
-
-        if (request()->has('image')) {
-            
             $interview->update([
                 'image' => request()->image->store('uploads', 'public'),
             ]);
@@ -262,14 +251,26 @@ class InterviewsController extends Controller
         
     }
 
-    
-    private function deleteOldInterviewImageAfterUpdatingForNewOne($id)
-    {
-        $oldImageName = Interview::findOrFail($id);
+    // private function updateImage($interview)
+    // {
 
-        if(request()->has('image') && $oldImageName->image)
-        {
+    //     if (request()->has('image')) {
             
+    //         $interview->update([
+    //             'image' => request()->image->store('uploads', 'public'),
+    //         ]);
+            
+    //     }
+        
+    // }
+
+    
+    private function deleteOldPatientImageAfterUpdatingForNewOne($id)
+    {
+        $oldImageName = Interview::where('appointment_id', $id)->first();
+        
+        if (request()->has('image') && $oldImageName->image != null) {
+           
             Storage::delete('public/'.$oldImageName->image);
         }
         
