@@ -9,20 +9,24 @@ use Auth;
 use App\User;
 use App\Hour;
 use Redirect;
+use App\Helper;
 
 class HoursController extends Controller
 {
+
     public function __construct()
     {
         $this->middleware('auth');
+        
     }
 
     public function index()
     {
         
-        $hours = Hour::orderBy('id','ASC')->get();
+        $hours = Hour::orderBy('id','ASC')->paginate(6);
+        $todaysDate = Helper::getTimeZoneDate('dddd, D Y', 'America/Tegucigalpa');
 
-        return view('hours.index', compact('hours'));
+        return view('hours.index', compact('hours', 'todaysDate'));
     }
 
     public function create()

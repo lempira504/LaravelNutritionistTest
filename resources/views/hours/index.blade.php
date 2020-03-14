@@ -81,6 +81,21 @@
 
         <!-- /.card-body -->
         <div class="card-footer">
+            <div class="row">
+                <div class="col">
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createHour">
+                        <i class="fa fa-plus"></i> Nuevo
+                    </button>
+                </div>
+                <div class="col">
+                    <div class="row justify-content-center">
+                    {{ $hours->links() }}
+                    </div>
+                </div>
+                <div class="col">
+                    <small class="float-right align-middle lead text-muted">{{ $todaysDate }}</small>
+                </div>
+            </div>
 
             @include('hours.modal.hourModal')
         </div>

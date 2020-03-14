@@ -4,7 +4,7 @@ namespace App;
 use Carbon\Carbon;
 use App\Appointment;
 use App\Hour;
-// use DateTimeZone;
+use DateTimeZone;
 
 class Helper
 {
@@ -86,6 +86,15 @@ class Helper
         $date = Carbon::parse($date);
 
         return $date->day . ', ' . $date->monthName . ', ' . $date->year ;
+    }
+
+    /*var_dump($modifiedMutable->isoFormat('dddd, D Y'));     // string(8) "Sunday 1"
+    **/
+    public static function getTimeZoneDate($dateToDisplay, $timeZone)
+    {
+        $date = Carbon::now(new DateTimeZone($timeZone));
+        
+        return ucwords($date->isoFormat($dateToDisplay));
     }
 
 

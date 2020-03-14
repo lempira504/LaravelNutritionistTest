@@ -1,7 +1,7 @@
 <!-- Button trigger modal -->
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createHour">
+{{-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createHour">
     <i class="fa fa-plus"></i> Nuevo
-</button>
+</button> --}}
 
 
 

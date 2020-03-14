@@ -57,14 +57,24 @@
 
     <div class="card-footer">
         <!-- Button trigger modal for creating Portions -->
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createPortion">
-            <i class="fa fa-plus"></i> Nuevo
-        </button>
+        
 
 
-        <div class="row justify-content-center">
+        <div class="row">
+            <div class="col">
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createPortion">
+                    <i class="fa fa-plus"></i> Nuevo
+                </button>
+            </div>
+            <div class="col">
+                <div class="row justify-content-center">
+                {{ $portions->links() }}
+                </div>
+            </div>
+            <div class="col">
+                <small class="float-right align-middle lead text-muted">{{ $todaysDate }}</small>
+            </div>
 
-            {{ $portions->links() }}
         </div>
         @include('portions.modal.create')
         @include('portions.modal.edit')

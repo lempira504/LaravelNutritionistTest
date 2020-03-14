@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Portion;
 use Session;
+use App\Helper;
 
 class PortionsController extends Controller
 {
@@ -22,8 +23,9 @@ class PortionsController extends Controller
     {
         //
         $portions = Portion::paginate(6); 
+        $todaysDate = Helper::getTimeZoneDate('dddd, D Y', 'America/Tegucigalpa');
 
-        return view('portions.index', compact('portions'));
+        return view('portions.index', compact('portions', 'todaysDate'));
     }
 
     /**

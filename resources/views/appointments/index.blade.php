@@ -19,9 +19,8 @@
     <div class="card">
 
         <div class="card-header">
-            <h1 class="card-title" style="color: rgb(25, 188, 157); font-weight: bold; font-size: 2.5em;">Lista de Citas
-            </h1>
-
+            <h1 class="card-title" style="color: rgb(25, 188, 157); font-weight: bold; font-size: 2.5em;">Lista de Citas </h1>
+            
             <div class="card-tools">
                 <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip"
                     title="Collapse">
@@ -107,12 +106,23 @@
         
         <!-- /.card-footer-->
         <div class="card-footer clearfix">
-            <div class="row justify-content-center">
-
-                {{ $appointments->links() }}
+            <div class="row ">
+                <div class="col">
+                    <button type="button" class="btn btn-primary float-left" data-toggle="modal" data-target="#createAppointment"><i class="fas fa-plus"></i> Nuevo</button>
+                </div>
+                
+                <div class="col">
+                    <div class="row justify-content-center">
+                    {{ $appointments->links() }}
+                    </div>
+                </div>
+                
+                <div class="col">
+                    <small class="float-right align-middle lead text-muted">{{ $todaysDate }}</small>
+                </div>
 
             </div>
-            <button type="button" class="btn btn-primary float-left" data-toggle="modal" data-target="#createAppointment"><i class="fas fa-plus"></i> Nuevo</button>
+            
 
             @include('appointments.modal.create')
         </div>

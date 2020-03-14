@@ -28,9 +28,10 @@ class AppointmentsController extends Controller
         $appointments = Appointment::orderBy('date', 'ASC')->paginate(6);
         $availableHours = Hour::all();
         $codigoDelPaciente = Helper::makeCode();
+        $todaysDate = Helper::getTimeZoneDate('dddd, D Y', 'America/Tegucigalpa');
 
         // return view('appointments.index', compact('appointments'));
-        return view('appointments.index', compact('appointments', 'availableHours', 'codigoDelPaciente'));
+        return view('appointments.index', compact('appointments', 'availableHours', 'codigoDelPaciente', 'todaysDate'));
     }
 
     /**
