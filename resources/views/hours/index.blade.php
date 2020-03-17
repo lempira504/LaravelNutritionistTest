@@ -41,17 +41,17 @@
             @forelse ($hours as $hour)
             <div class="row py-1 justify-content-md-center">
                 <div class="col-4 d-flex">
-                    <div class="pr-2">
+                    {{-- <div class="pr-2">
                         <label for="">Creado por:</label>
-                    </div>
+                    </div> --}}
                     <div class="text-muted">
-                        {{ $hour->user->name }}
+                        <i class="fas fa-user-edit mr-2"></i>{{ $hour->user->name }}
                         {{-- {{ $hour->patient->id }} --}}
                     </div>
                 </div>
                 <div class="col-4">
                     {{-- <a href="/horarios/{{ $hour->id }}/edit">{{ $hour->time }}</a> --}}
-                    {{ $hour->time }}
+                    <i class="far fa-clock mr-2"></i>{{ $hour->time }}
                 </div>
 
 
@@ -87,11 +87,11 @@
                         <i class="fa fa-plus"></i> Nuevo
                     </button>
                 </div>
-                <div class="col">
+                {{-- <div class="col">
                     <div class="row justify-content-center">
                     {{ $hours->links() }}
                     </div>
-                </div>
+                </div> --}}
                 <div class="col">
                     <small class="float-right align-middle lead text-muted">{{ $todaysDate }}</small>
                 </div>

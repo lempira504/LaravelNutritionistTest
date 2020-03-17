@@ -49,51 +49,57 @@
                         title="Crear Entrevista del Paciente Darle Click">{{ $appointment->code }}</a> --}}
                     
                     @if($interview)
-                    <a class="align-middle" href=" {{ route('entrevistas.show', $appointment->id ) }} "
+                    <a class="align-self-center" href=" {{ route('entrevistas.show', $appointment->id ) }} "
                         title="Muestra Información de Última Entrevista del Paciente.">{{ $appointment->code }}</a>  
                     @else
-                    <a class="align-middle" href=" {{ route('entrevistas.interview', $appointment->id ) }} "
+                    <a class="align-self-center" href=" {{ route('entrevistas.interview', $appointment->id ) }} "
                         title="Crear Entrevista del Paciente.">{{ $appointment->code }}</a>  
                     @endif
 
                 </div>
 
-                <div class="col">
+                <div class="col-2">
                     
-                    <a class="text-success font-weight-bolder align-middle" href=" {{ route('planes.show', $appointment->id) }} "
+                    @if($interview)
+                        <a class="text-success font-weight-bolder align-self-center" href=" {{ route('planes.show', $appointment->id) }} "
                     title="Crear Plan del Paciente al Darle Click">{{ $appointment->name }}</a>
+                    @else
+                    <label class="text-info font-weight-bolder align-self-center" title="Paciente no entrevistado">{{ $appointment->name }}</label>
+                    @endif
                     
                 </div>
                 
-                <div class="col text-muted text-center">
+                <div class="col-1 text-muted text-center">
                     
                     @if ($interview)
                         @if($image)
-                        <img class="align-middle img-circle elevation-2" alt="Avatar" style="width:40px;"  src="{{ asset('storage/'.$image) }}">
-                        {{-- <i class="fa fa-user-check text-success align-middle" title="Entrevista completada."></i> --}}
+                        <img class="img-circle elevation-2 align-self-center" alt="Avatar" style="width:40px;"  src="{{ asset('storage/'.$image) }}">
+                        {{-- <i class="fa fa-user-check text-success align-self-center" title="Entrevista completada."></i> --}}
                         @else
-                        <i class="fa fa-user-check text-success align-middle" title="Entrevista completada."></i>
+                        <i class="fa fa-user-check text-success align-self-center" title="Entrevista completada."></i>
                         @endif
                     @else
-                    <i class="fa fa-user-times text-danger align-middle" title="Entrevista no completada."></i>
+                    <i class="fa fa-user-times text-info align-self-center" title="Entrevista no completada."></i>
                     @endif
                     
                 </div>
 
-                <div class="col-3 text-capitalize align-middle"> {{ App\Helper::showDayMonthNameAndYearDate($appointment->date) }} - {{ $appointment->hour->time }} </div>
+                <div class="col-3 text-capitalize align-self-center"> {{ App\Helper::showDayMonthNameAndYearDate($appointment->date) }} - {{ $appointment->hour->time }} </div>
                 
                 
                 {{-- <div class="col">{{ $appointment->created_at->diffForHumans() }}</div> --}}
 
-                <div class="col">{{ $appointment->phone }}</div>
+                <div class="col align-self-center">
+                    {{ $appointment->phone }}
+                </div>
 
-                <div class="col">
+                <div class="col-1 align-self-center">
                     <form action="{{ route('citas.destroy', $appointment->id) }}" method="post">
                         @csrf
                         @method('DELETE')
 
                         <button type="submit" class="btn btn-danger btn-xs"
-                            onclick="return confirm('¿Desea Eliminar Este Registro?')"><i class="fas fa-trash mr-1"></i>Eliminar</button>
+                            onclick="return confirm('¿Desea Eliminar Este Registro?')"><i class="fas fa-trash btn-block"></i></button>
 
                     </form>
                 </div>
@@ -118,7 +124,7 @@
                 </div>
                 
                 <div class="col">
-                    <small class="float-right align-middle lead text-muted">{{ $todaysDate }}</small>
+                    <small class="float-right align-self-center lead text-muted">{{ $todaysDate }}</small>
                 </div>
 
             </div>

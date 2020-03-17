@@ -104,7 +104,8 @@ return [
         'time' => 'hora',
         'phone' => 'teléfono',
         'email' => 'correo',
-        'password' => 'contraseña'
+        'password' => 'contraseña',
+        'license_id' => 'licencia'
         
     ],
 ];

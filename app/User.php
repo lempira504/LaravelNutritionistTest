@@ -7,6 +7,8 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 use App\Appts;
+
+
 class User extends Authenticatable
 {
     use Notifiable;
@@ -17,7 +19,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'license_id', 'name', 'phone', 'email', 'password',
     ];
 
     /**
@@ -56,5 +58,10 @@ class User extends Authenticatable
     public function interviews()
     {
         return $this->hasMany(Interview::class);
+    }
+
+    public function license()
+    {
+        return $this->belongsTo(License::class);
     }
 }

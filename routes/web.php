@@ -63,6 +63,8 @@ Route::get('/entrevistas/crear/{id}', 'InterviewsController@interview')->name('e
 Route::resource('/entrevistas', 'InterviewsController');
 Route::resource('/planes', 'FoodPlansController');
 Route::resource('/buscar', 'SearchHoursController');
+Route::resource('/licencia', 'LicenseController');
+Route::resource('/registro', 'RegistrationController');
 
 /*End Latest One---------------------------------------*/
 

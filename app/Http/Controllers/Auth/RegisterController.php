@@ -3,10 +3,14 @@
 namespace App\Http\Controllers\Auth;
 
 use App\User;
+use App\Helper;
+use App\License;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Redirect;
+use Auth;
 
 class RegisterController extends Controller
 {
@@ -49,7 +53,9 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
+            'license_id' => ['required', 'string'],
             'name' => ['required', 'string', 'max:255'],
+            'phone' => ['required', 'string', 'max:25'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
@@ -63,10 +69,31 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
-        ]);
+        // return User::create([
+        //     'license_id'    => $data['license_id'],
+        //     'name'          => $data['name'],
+        //     'phone'         => $data['phone'],
+        //     'email'         => $data['email'],
+        //     'password'      => Hash::make($data['password']),
+        // ]);
+
+
+        $licenseId = Helper::checkIfLicenseExists($data['license_id']);
+        
+        
+        
+        #404 license not found
+        // $license = License::findOrfail($licenseId);
+        
+        //     $data['license_id'] = strtolower($data['license_id']);
+        //     $data['password'] = Hash::make($data['password']);
+
+        //     return $license->users()->create($data);
+        
+
+
+        
+        
+        
     }
 }

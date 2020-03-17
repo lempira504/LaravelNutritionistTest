@@ -13,6 +13,8 @@ use Session;
 use App\Appointment;
 use Carbon\Carbon;
 use Redirect;
+use App\Interview;
+use DB;
 
 class AppointmentsController extends Controller
 {
@@ -25,7 +27,18 @@ class AppointmentsController extends Controller
     public function index()
     {
         //
-        $appointments = Appointment::orderBy('date', 'ASC')->paginate(6);
+        // $appointments = Appointment::orderBy('date', 'ASC')->paginate(20);
+        // $appointments = DB::table('appointments')
+        //             ->join('hours', 'appointments.hour_id', '=', 'hours.id')
+        //             ->select('appointments.*')
+        //             ->paginate(20);
+
+        //             dd($appointments);
+
+        $appointments = Appointment::join('hours', 'appointments.hour_id', '=', 'hours.id')
+                                    ->orderBy('appointments.date', 'ASC')
+                                    ->select('appointments.*')->paginate(20);
+
         $availableHours = Hour::all();
         $codigoDelPaciente = Helper::makeCode();
         $todaysDate = Helper::getTimeZoneDate('dddd, D Y', 'America/Tegucigalpa');
@@ -63,15 +76,22 @@ class AppointmentsController extends Controller
        
         
         // //end of good
-
-        if(Helper::checkIfHourIsTakenWhenMakingAnAppointment($request['date'], $request['hour_id']))
-        {
-            $request->request->add(['hour_id' => '']);
-
-            $data = $this->validateMyFields();
-            Session::flash('danger', 'Hora y Fecha Ya Existen.');
-            return Redirect::back();
+        // dd(Helper::checkIfHourIsTakenWhenMakingAnAppointment($request['date'], $request['hour_id']));
+        
+        if ($appTime = Helper::checkIfHourIsTakenWhenMakingAnAppointment($request['date'], $request['hour_id'])) {
+            Session::flash('danger', $appTime . ' no Disponible ');
+            return back();
         }
+        
+
+        // if(Helper::checkIfHourIsTakenWhenMakingAnAppointment($request['date'], $request['hour_id']))
+        // {
+        //     $request->request->add(['hour_id' => '']);
+
+        //     $data = $this->validateMyFields();
+        //     Session::flash('danger', 'Hora y Fecha Ya Existen.');
+        //     return back();
+        // }
         
         $data = $this->validateMyFields();
         $user = User::findOrFail(Auth::user()->id);
@@ -185,6 +205,9 @@ class AppointmentsController extends Controller
      */
     public function destroy(Appointment $cita)
     {
+        // $image = Interview::where('appointment_id',$cita)->first();
+        
+        Helper::deleteOldImageAfterUpdatingForNewOne($cita->id);
         $cita->delete();
 
         Session::flash('success', 'Eliminado.');

@@ -72,7 +72,7 @@ class InterviewsController extends Controller
 
         // $user->interviews()->create($data);
         $interview = Interview::create($data);
-        $this->storeImage($interview);
+        Helper::storeImage($interview);
         
 
 
@@ -169,11 +169,11 @@ class InterviewsController extends Controller
         
         
         #Deletes old image, before loading the new one
-        $this->deleteOldPatientImageAfterUpdatingForNewOne($id);
+        Helper::deleteOldImageAfterUpdatingForNewOne($id);
         
         // $user->interviews()->update($data);
         $interview->update($data);
-        $this->storeImage($interview);
+        Helper::storeImage($interview);
         
 
         // dd($user);
@@ -224,32 +224,32 @@ class InterviewsController extends Controller
         ]);
     }
 
-    private function storeImage($interview)
-    {
+    // private function storeImage($interview)
+    // {
 
-        if (request()->has('image')) {
+    //     if (request()->has('image')) {
             
-            // $image = Image::make(request()->file('image'))->resize(200, 200, function ($c) {
-            //     $c->aspectRatio();
-            // });
+    //         // $image = Image::make(request()->file('image'))->resize(200, 200, function ($c) {
+    //         //     $c->aspectRatio();
+    //         // });
             
-            // $image->save('img/' . time() . '.png');
-            // // dd($image);
-
-            
-            // $user->interviews()->update([
-            //     'image' => $image->basename,
-            // ]);
-            
-            ///--------------------------------new
-            $interview->update([
-                'image' => request()->image->store('uploads', 'public'),
-            ]);
+    //         // $image->save('img/' . time() . '.png');
+    //         // // dd($image);
 
             
-        }
+    //         // $user->interviews()->update([
+    //         //     'image' => $image->basename,
+    //         // ]);
+            
+    //         ///--------------------------------new
+    //         $interview->update([
+    //             'image' => request()->image->store('uploads', 'public'),
+    //         ]);
+
+            
+    //     }
         
-    }
+    // }
 
     // private function updateImage($interview)
     // {
@@ -265,16 +265,16 @@ class InterviewsController extends Controller
     // }
 
     
-    private function deleteOldPatientImageAfterUpdatingForNewOne($id)
-    {
-        $oldImageName = Interview::where('appointment_id', $id)->first();
+    // private function deleteOldImageAfterUpdatingForNewOne($id)
+    // {
+    //     $oldImageName = Interview::where('appointment_id', $id)->first();
         
-        if (request()->has('image') && $oldImageName->image != null) {
+    //     if (request()->has('image') && $oldImageName->image != null) {
            
-            Storage::delete('public/'.$oldImageName->image);
-        }
+    //         Storage::delete('public/'.$oldImageName->image);
+    //     }
         
-    }
+    // }
 
     
 }

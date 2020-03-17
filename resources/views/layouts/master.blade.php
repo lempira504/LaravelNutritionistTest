@@ -63,8 +63,10 @@
                             <main class="py-4">
 
                             <div class="row justify-content-center">
-                                <div class="col-sm-11 col-md-11 col-lg-8">
+                                <div class="col">
+                                    <div class="container">
                                     @include('flash-message')
+                                    </div>
 
                                     @yield('content')
                                 </div>

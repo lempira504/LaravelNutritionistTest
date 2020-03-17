@@ -4,13 +4,24 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-10">
+           
             <div class="card">
                 <div class="card-header"><strong>{{ __('Registrarse') }}</strong> <span class="text-danger float-right">* Campos Obligatorios</span></div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('register') }}">
-                        @csrf
+                    @if(\Session::has('msg'))
+                        
+                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                            <strong>Licencia No Disponible!</strong> Por Favor Comuniquese Con El Administrador.
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    @endif
 
+                    <form method="POST" action="{{ route('registro.store') }}">
+                        @csrf
+                        
                         <div class="form-group row">
                             <label for="license_id" class="col-md-4 col-form-label text-md-right">{{ __('# Licencia') }} <span class="text-danger">*</span></label>
 
@@ -40,7 +51,7 @@
                         </div>
 
                         <div class="form-group row">
-                            <label for="phone" class="col-md-4 col-form-label text-md-right">{{ __('Teléfono') }} <span class="text-danger">*</span></label>
+                            <label for="phone" class="col-md-4 col-form-label text-md-right" title="+1 504 3334-4344 o 3334-4344 o 33344344">{{ __('Teléfono') }} <span class="text-danger">*</span></label>
 
                             <div class="col-md-6">
                                 <input id="phone" type="text" class="form-control @error('phone') is-invalid @enderror" name="phone" value="{{ old('phone') }}"  autocomplete="phone" autofocus>

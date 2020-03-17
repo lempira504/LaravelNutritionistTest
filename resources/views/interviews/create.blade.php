@@ -95,11 +95,17 @@
                                     </div>
                                 </div>
 
-                                <div class="p-2 form-group">
+                                {{-- <div class="p-2 form-group">
                                     <label for="">Imagen</label>
                                     <br>
                                     <input type="file" name="image" id="image" 
                                     class="my-input-bg @error('image') is-invalid @enderror" value="{{ old('image') }}">
+                                </div> --}}
+                                <div class="row">
+                                    <div class="col p-2 form-group">
+                                        <label class="rounded p-2 mt-2 text-gray-dark btn-block text-center" for="image" style="background-color: #1eb2a6;"><i class="fas fa-cloud-upload-alt mr-2"></i>Subir Foto</label>
+                                        <input type="file" name="image" id="image" style="display:none;" value="{{ old('image') }}">
+                                    </div>
                                 </div>
                                 
 

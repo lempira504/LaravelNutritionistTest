@@ -23,7 +23,7 @@ class HoursController extends Controller
     public function index()
     {
         
-        $hours = Hour::orderBy('id','ASC')->paginate(6);
+        $hours = Hour::orderBy('id','ASC')->get();
         $todaysDate = Helper::getTimeZoneDate('dddd, D Y', 'America/Tegucigalpa');
 
         return view('hours.index', compact('hours', 'todaysDate'));
