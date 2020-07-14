@@ -13,7 +13,7 @@
             <hr>
         </div>
     </div> --}}
-
+{{-- {{ dd($errors->all()) }} --}}
 
 
     <div class="card">
@@ -42,7 +42,6 @@
                 @endphp
             
 
-
             <div class="row pl-2 pr-2 py-1">
                 <div class="col">
                     {{-- <a href=" {{ route('entrevistas.show', $appointment->id ) }} "
@@ -50,10 +49,16 @@
                     
                     @if($interview)
                     <a class="align-self-center" href=" {{ route('entrevistas.show', $appointment->id ) }} "
-                        title="Muestra Información de Última Entrevista del Paciente.">{{ $appointment->code }}</a>  
+                        title="Muestra Información de Última Entrevista del Paciente.">{{ $appointment->code }}</a> 
+                        <div class="clearfix">
+                            <small class="text-muted"> [ {{ $appointment->created_at->diffForHumans() }} ] </small>
+                        </div> 
                     @else
-                    <a class="align-self-center" href=" {{ route('entrevistas.interview', $appointment->id ) }} "
+                        <a class="align-self-center" href=" {{ route('entrevistas.interview', $appointment->id ) }} "
                         title="Crear Entrevista del Paciente.">{{ $appointment->code }}</a>  
+                        <div class="clearfix">
+                            <small class="text-muted"> [ {{ $appointment->created_at->diffForHumans() }} ] </small>
+                        </div> 
                     @endif
 
                 </div>
@@ -84,7 +89,15 @@
                     
                 </div>
 
-                <div class="col-3 text-capitalize align-self-center"> {{ App\Helper::showDayMonthNameAndYearDate($appointment->date) }} - {{ $appointment->hour->time }} </div>
+                <div class="col-3 text-capitalize align-self-center"> 
+                {{-- {{ dd($appointment) }} --}}
+                {{-- {{ App\Helper::formatDateForHumanReadable($appointment->date, 'dddd, D Y', 'America/Tegucigalpa') }} -- {{ $appointment->time }}  --}}
+                {{ App\Helper::formatDateForHumanReadable($appointment->date, 'dddd, D-MM-Y', 'America/Tegucigalpa') }}
+                <br>
+                {{ $appointment->hour->time }} 
+                {{-- {{ App\Helper::getTimeZoneDate('dddd, D Y', 'America/Tegucigalpa') }} -   --}}
+                {{-- {{   $appointment->hour->time }}  --}}
+                </div>
                 
                 
                 {{-- <div class="col">{{ $appointment->created_at->diffForHumans() }}</div> --}}

@@ -25,12 +25,24 @@
                 <tr role="row" class="even">
                     <td width="200px;">
                         {{ $portion->time }}
+
+                        <div class="pt-2">
+                            <small > [ {{ $portion->created_at->diffForHumans() }} ] </small>
+                        </div>
                     </td>
                     <td>
-                        {{ $portion->option1 }}
+                        {{ $portion->option1 }} 
+                        
+                        <div class="pt-2">
+                            <small > [ {{ $portion->created_at->diffForHumans() }} ] </small>
+                        </div>
                     </td>
                     <td>
                         {{ $portion->option2 }}
+
+                        <div class="pt-2">
+                            <small > [ {{ $portion->created_at->diffForHumans() }} ] </small>
+                        </div>
                     </td>
                     <td width="50px;">
                         <form action="{{ route('porciones.destroy', $portion->id) }}" method="post">

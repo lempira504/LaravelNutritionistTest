@@ -53,12 +53,13 @@
                                     <label for="hour_id">Hora <b class="text-danger">*</b></label>
                                     <select name="hour_id" class="form-control @error('hour_id') is-invalid @enderror">
 
-                                        @foreach ($availableHours as $availableHour)
-
-                                        <option value="{{ old('hour_id') ?? $availableHour->id }}">
-                                            {{ $availableHour->time }}
-                                        </option>
-                                        @endforeach
+                                        @forelse($availableHours as $availableHour)
+                                            <option value="{{ old('hour_id') ?? $availableHour->id }}">
+                                                {{ $availableHour->time }}
+                                            </option>
+                                        @empty
+                                            <option disabled >Ingrese Horarios</option>
+                                        @endforelse 
 
                                     </select>
 

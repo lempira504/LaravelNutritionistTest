@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\HourStoreRequest;
 
 use Session;
 use Auth;
@@ -22,9 +23,18 @@ class HoursController extends Controller
 
     public function index()
     {
-        
-        $hours = Hour::orderBy('id','ASC')->get();
         $todaysDate = Helper::getTimeZoneDate('dddd, D Y', 'America/Tegucigalpa');
+        $user = User::findOrFail(Auth::user()->id);
+        // dd($user->license_id);
+        
+
+        $hours = Hour::where('license_id', $user->license_id)
+                        ->orderBy('time','DESC')->get();
+        // $hours = Hour::join('users', 'hours.user_id', '=', 'users.id')
+        //                     ->where('license_id', $user->license_id)
+        //                     ->orderBy('time','ASC')
+        //                     ->get();
+        
 
         return view('hours.index', compact('hours', 'todaysDate'));
     }
@@ -34,13 +44,19 @@ class HoursController extends Controller
         return view('hours.create');
     }
 
-    public function store()
+    public function store(Request $request)
     {
         
         $user = User::findOrFail(Auth::user()->id);
-
+        // dd($user);
+        $request['user_id'] = $user->id;
+        $request['license_id'] = $user->license_id;
+        
+        
         $data = $this->myValidation();
-
+       
+        
+        
         $user->hours()->create($data);
 
         Session::flash('success', 'Hecho!');
@@ -71,8 +87,16 @@ class HoursController extends Controller
 
 
         /**With Modal */
+
+        /**Grabs users license belong to a doctor and assign it to license_id request*/
+        $user = User::findOrFail(Auth::user()->id);
+        $request['user_id'] = $user->id;
+        
+        $request['license_id'] = $user->license_id;
+
         $editHour = Hour::findOrFail($request->hour_id);
         $data = $this->myValidation();
+        // dd($data);
         $editHour->update($data);
 
         Session::flash('success', 'Actualizado.');
@@ -102,6 +126,8 @@ class HoursController extends Controller
     public static function myValidation()
     {
         return $data = request()->validate([
+            'user_id' => 'required|integer',
+            'license_id' => 'required|integer',
             'time' => 'required|string'
         ]);
     }

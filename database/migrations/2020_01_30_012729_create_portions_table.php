@@ -15,6 +15,7 @@ class CreatePortionsTable extends Migration
     {
         Schema::create('portions', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->bigInteger('license_id')->unsigned();
             $table->text('time');
             $table->text('option1');
             $table->text('option2');

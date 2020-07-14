@@ -9,6 +9,7 @@ use App\License;
 use Redirect;
 use Session;
 use Hash;
+use Auth;
 
 class RegistrationController extends Controller
 {
@@ -32,21 +33,32 @@ class RegistrationController extends Controller
         // dd($licenseId);
 
         if ($licenseId == false) {
-            
+            // dd('false');
             Session::flash('msg', 'Licencia No Disponible.');
             
             return back()->withInput();
+        }else
+        {
+            #404 license not found
+            $license = License::findOrfail($licenseId);
+
+            
+            
+            // $data['license_id'] = strtolower($data['license_id']);
+            $data['license_id'] = strtolower($license->id);
+            $data['password'] = Hash::make($data['password']);
+
+            // $license->users()->create($data);
+            // return view('/home');
+            // dd($data);
+            $user = User::create($data);
+            
+            auth()->login($user);
+        
+            return redirect()->to('/');
         }
-        #404 license not found
-        $license = License::findOrfail($licenseId);
 
         
-        
-        $data['license_id'] = strtolower($data['license_id']);
-        $data['password'] = Hash::make($data['password']);
-
-        // return $license->users()->create($data);
-        return view('home');
     }
 
 

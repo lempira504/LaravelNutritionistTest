@@ -102,6 +102,24 @@ class Helper
         return ucwords($date->isoFormat($dateToDisplay));
     }
 
+    public static function formatDateForHumanReadable($myDate = null, $dateToDisplay, $timeZone)
+    {
+        if ($myDate == null) {
+            // $date = Carbon::now(new DateTimeZone($timeZone));
+            $carbon = Carbon::parse(now());
+            $carbon->tz = $timeZone;
+        
+            return ucwords($carbon->isoFormat($dateToDisplay));
+        }else
+        {
+            $carbon = Carbon::parse($myDate);
+            $carbon->tz = $timeZone;
+            
+            
+            return ucwords($carbon->isoFormat($dateToDisplay));
+        }
+    }
+
 
 
     // public static function checkIfHourIsTakenWhenMakingAnAppointment($date)

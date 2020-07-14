@@ -17,6 +17,7 @@ class CreateAppointmentsTable extends Migration
             $table->bigIncrements('id');
             $table->bigInteger('hour_id')->unsigned();
             $table->bigInteger('user_id')->unsigned();
+            $table->bigInteger('license_id')->unsigned();
             $table->string('code');
             $table->string('name');
             $table->date('date');
@@ -27,6 +28,7 @@ class CreateAppointmentsTable extends Migration
             $table->foreign('hour_id')->references('id')->on('hours')->onDelete('cascade');
             $table->index('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            
         });
     }
 

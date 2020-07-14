@@ -2,6 +2,17 @@
 
 /*
 |--------------------------------------------------------------------------
+| Set Time Zone
+|--------------------------------------------------------------------------
+|
+| Set Default Time Zone. In this case Honduras
+|
+*/
+date_default_timezone_set('America/tegucigalpa');
+
+
+/*
+|--------------------------------------------------------------------------
 | Web Routes
 |--------------------------------------------------------------------------
 |
@@ -68,5 +79,5 @@ Route::resource('/registro', 'RegistrationController');
 
 /*End Latest One---------------------------------------*/
 
-Route::get('/home', 'HomeController@index')->name('home');
+// Route::get('/home', 'HomeController@index')->name('home');
 // Route::get('/', 'HomeController@index');

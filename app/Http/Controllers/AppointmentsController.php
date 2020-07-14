@@ -26,8 +26,17 @@ class AppointmentsController extends Controller
      */
     public function index()
     {
+
+        $user = User::findOrFail(Auth::user()->id);
+        $codigoDelPaciente = Helper::makeCode();
+        $todaysDate = Helper::formatDateForHumanReadable(null, 'dddd, D Y', 'America/Tegucigalpa');
+        
+
         //
-        // $appointments = Appointment::orderBy('date', 'ASC')->paginate(20);
+        $appointments = Appointment::where('license_id', $user->license_id)
+                                    ->orderBy('date', 'ASC')
+                                    ->paginate(20);
+                                    
         // $appointments = DB::table('appointments')
         //             ->join('hours', 'appointments.hour_id', '=', 'hours.id')
         //             ->select('appointments.*')
@@ -35,13 +44,22 @@ class AppointmentsController extends Controller
 
         //             dd($appointments);
 
-        $appointments = Appointment::join('hours', 'appointments.hour_id', '=', 'hours.id')
-                                    ->orderBy('appointments.date', 'ASC')
-                                    ->select('appointments.*')->paginate(20);
+        
 
-        $availableHours = Hour::all();
-        $codigoDelPaciente = Helper::makeCode();
-        $todaysDate = Helper::getTimeZoneDate('dddd, D Y', 'America/Tegucigalpa');
+        // $appointments = DB::table('appointments')
+        //                             ->join('hours', 'appointments.hour_id', '=', 'hours.id')
+        //                             ->join('users', 'appointments.user_id', '=', 'users.id')
+        //                             ->where('license_id', $user->license_id)
+        //                             ->orderBy('appointments.date', 'ASC')
+        //                             // ->select('appointments.*')
+        //                             ->paginate(20);
+
+        // $availableHours = Hour::all();
+        $availableHours = Hour::where('license_id', $user->license_id)
+                                ->orderBy('time', 'ASC')
+                                ->get();
+        
+        
 
         // return view('appointments.index', compact('appointments'));
         return view('appointments.index', compact('appointments', 'availableHours', 'codigoDelPaciente', 'todaysDate'));
@@ -71,8 +89,10 @@ class AppointmentsController extends Controller
      */
     public function store(Request $request)
     {
+        
         //good
         // dd($request['date']);
+        $user = User::findOrFail(Auth::user()->id);
        
         
         // //end of good
@@ -93,9 +113,13 @@ class AppointmentsController extends Controller
         //     return back();
         // }
         
-        $data = $this->validateMyFields();
-        $user = User::findOrFail(Auth::user()->id);
+        $request['license_id'] = $user->license_id;
         
+        $data = $this->validateMyFields();
+        
+        
+        
+        // dd($data);
         $user->appointments()->create($data);
         
         Session::flash('success', 'Cita Creada.');
@@ -219,9 +243,10 @@ class AppointmentsController extends Controller
     public function validateMyFields()
     {
         return $data = request()->validate([
+            'hour_id' => 'required|string',
+            'license_id' => 'required|integer',
             'code' => 'required|string',
             'name' => 'required|string',
-            'hour_id' => 'required|string',
             'date' => 'required|date',
             'phone' => 'required|string',
         ]);

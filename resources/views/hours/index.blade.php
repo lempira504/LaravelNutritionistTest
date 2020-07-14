@@ -20,7 +20,9 @@
             @include('flash-message')
         </div>
     </div> --}}
-
+    
+    {{-- {{ dd($errors->all()) }} --}}
+    
     <div class="card">
         <div class="card-header">
             <h1 class="card-title" style="color: rgb(25, 188, 157); font-weight: bold; font-size: 2.5em;">Lista de
@@ -45,8 +47,9 @@
                         <label for="">Creado por:</label>
                     </div> --}}
                     <div class="text-muted">
-                        <i class="fas fa-user-edit mr-2"></i>{{ $hour->user->name }}
-                        {{-- {{ $hour->patient->id }} --}}
+                        <i class="fas fa-user-edit mr-2"></i>{{ $hour->user->name }} <small > [{{ $hour->created_at->diffForHumans() }}] </small>
+                        
+                        
                     </div>
                 </div>
                 <div class="col-4">

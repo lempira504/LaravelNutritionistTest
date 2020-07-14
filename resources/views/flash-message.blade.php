@@ -33,6 +33,8 @@
 @if ($errors->any())
 <div class="alert alert-danger">
     <button type="button" class="close" data-dismiss="alert">×</button>
-    Revise su información
+    @foreach($errors->all() as $key => $error)
+        {{ $error }}
+    @endforeach
 </div>
 @endif

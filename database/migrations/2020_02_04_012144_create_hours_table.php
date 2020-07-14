@@ -16,6 +16,7 @@ class CreateHoursTable extends Migration
         Schema::create('hours', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->bigInteger('user_id')->unsigned();
+            $table->bigInteger('license_id')->unsigned();
             $table->string('time');
             $table->timestamps();
 

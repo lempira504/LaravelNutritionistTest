@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Cita;
 use App\Helper;
-use App\Helper;
 
 class CitasController extends Controller
 {
@@ -13,11 +12,11 @@ class CitasController extends Controller
     {
         $this->middleware('auth');
     }
-    
+
     public function index()
     {
         $codigoDelPaciente = Helper::makeCode();//makecode() comes from Helpers/helper.php
-        
+
         $citas = Cita::all();
 
         return view('citas.index', compact('codigoDelPaciente', 'citas'));
@@ -38,7 +37,7 @@ class CitasController extends Controller
 
         Cita::create($data);
 
-        
+
         return back();
     }
 
@@ -52,7 +51,6 @@ class CitasController extends Controller
     public function show(Cita $cita)
     {
         // $cita = Cita::findOrFail($id);
-        
 
         return view('citas.show', compact('cita'));
     }
@@ -60,7 +58,7 @@ class CitasController extends Controller
     public function update(Cita $cita)
     {
         // $cita = Cita::findOrFail($id);
-        
+
 
         return view('citas.edit', compact('cita'));
     }
@@ -80,5 +78,5 @@ class CitasController extends Controller
             'address' => '',
         ]);
     }
-    
+
 }

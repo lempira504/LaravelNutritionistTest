@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Portion;
 use Session;
 use App\Helper;
+use App\User;
+use Auth;
 
 class PortionsController extends Controller
 {
@@ -21,8 +23,12 @@ class PortionsController extends Controller
      */
     public function index()
     {
+        $user = User::findOrFail(Auth::user()->id);
         //
-        $portions = Portion::paginate(6); 
+        // $portions = Portion::paginate(6); 
+        $portions = Portion::where('license_id', $user->license_id)
+                                    ->orderBy('id', 'ASC')
+                                    ->paginate(6);
         $todaysDate = Helper::getTimeZoneDate('dddd, D Y', 'America/Tegucigalpa');
 
         return view('portions.index', compact('portions', 'todaysDate'));
@@ -48,9 +54,12 @@ class PortionsController extends Controller
      */
     public function store(Request $request)
     {
-        
+        $user = User::findOrFail(Auth::user()->id);
+
+        $request['license_id'] = $user->license_id;
         $data = $this->validateFields();//validates fields
 
+        
         Portion::create($data); //store data in db
 
         
@@ -91,7 +100,11 @@ class PortionsController extends Controller
     public function update(Request $request)
     {
         //
+        $user = User::findOrFail(Auth::user()->id);
         $editPortion = Portion::findOrFail($request->id);
+
+
+        $request['license_id'] = $user->license_id;
 
         $data = $this->validateFields();
 
@@ -125,6 +138,7 @@ class PortionsController extends Controller
     public function validateFields()
     {
         return $data = request()->validate([
+            'license_id' => 'required|integer',
             'time' => 'required|string',
             'option1' => 'required|string',
             'option2' => 'required|string',
